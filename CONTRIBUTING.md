@@ -98,45 +98,35 @@ Now you’re ready to code! If you’re fixing a bug or adding a new feature, pl
     <summary>
         <h3>Which backend technology is used❓</h3>
     </summary>
-
     Code Showcase Studio does not separate frontend and backend. It’s fully powered by Next.js. Database operations are handled via Prisma, allowing developers to manage data directly from frontend events (`onClick`, `onSubmit`, etc.).
-
 </details>
 
 <details>
     <summary>
         <h3>Are all issues in the tab “Issues” open❓</h3>
     </summary>
-
     Yes. The status of each issue is updated in real-time by the maintainers.
-
 </details>
 
 <details>
     <summary>
         <h3>Do I need to inform maintainers before contributing❓</h3>
     </summary>
-
     To avoid duplication, it’s best to comment on the issue you want to work on before starting.
-
 </details>
 
 <details>
     <summary>
         <h3>Do I have to fork the repo❓</h3>
     </summary>
-
     Yes. Forking ensures efficient project management and avoids conflicts when multiple contributors work on the same files.
-
 </details>
 
 <details>
     <summary>
         <h3>Is there a tutorial❓</h3>
     </summary>
-
     The contribution workflow is explained in [Development Setup](#-development-setup) and [Start Coding](#-start-coding).
-
 </details>
 
 ---
