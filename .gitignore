@@ -42,5 +42,6 @@ next-env.d.ts
 
 # Exclude all files in the root directory that start with a period (.) except for the ones that are needed.
 .*
-!.prettierrc
+!.editorconfig
 !.env.example
+!.prettierrc
