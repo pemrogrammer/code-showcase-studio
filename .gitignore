@@ -45,3 +45,6 @@ next-env.d.ts
 !.editorconfig
 !.env.example
 !.prettierrc
+
+# exclude prisma generated files, you should running npx db:generate:dev in your local machine
+src/app/generated
