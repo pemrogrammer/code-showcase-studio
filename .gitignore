@@ -41,5 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# exclude all on the root that starts with "."
+# Exclude all files in the root directory that start with a period (.) except for the ones that are needed.
 .*
+!.prettierrc
