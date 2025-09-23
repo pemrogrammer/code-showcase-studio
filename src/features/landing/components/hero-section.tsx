@@ -3,7 +3,7 @@ import { ArrowRight, Play, Sparkles } from 'lucide-react'
 
 export default function HeroSection() {
   return (
-    <section className="py-20 md:py-16 relative overflow-hidden">
+    <section className="py-20 md:py-16 relative overflow-hidden min-h-[calc(100vh-76px)]">
       <div className="absolute inset-0" />
 
       <div className="container mx-auto px-4 relative">
