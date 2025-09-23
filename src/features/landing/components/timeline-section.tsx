@@ -2,20 +2,21 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Heart, MessageCircle, Eye, Star, ExternalLink } from 'lucide-react'
+import Image from 'next/image'
 
 const recentProjects = [
   {
     id: 1,
     title: 'Smart Campus Navigation App',
     author: 'Ahmad Rizki',
-    authorAvatar: '/placeholder.svg?height=40&width=40',
+    authorAvatar: '/placeholder.svg',
     description:
       'Aplikasi navigasi kampus menggunakan AR dan machine learning untuk membantu mahasiswa baru',
     technologies: ['React Native', 'TensorFlow', 'Firebase', 'ARCore'],
     likes: 42,
     comments: 8,
     views: 156,
-    image: '/placeholder.svg?height=200&width=300',
+    image: '/placeholder.svg',
     postedAt: '2 jam yang lalu',
     featured: true,
   },
@@ -23,14 +24,14 @@ const recentProjects = [
     id: 2,
     title: 'E-Learning Platform POLNES',
     author: 'Siti Nurhaliza',
-    authorAvatar: '/placeholder.svg?height=40&width=40',
+    authorAvatar: '/placeholder.svg',
     description:
       'Platform pembelajaran online dengan fitur video conference dan assignment management',
     technologies: ['Next.js', 'PostgreSQL', 'WebRTC', 'Prisma'],
     likes: 38,
     comments: 12,
     views: 203,
-    image: '/placeholder.svg?height=200&width=300',
+    image: '/placeholder.svg',
     postedAt: '4 jam yang lalu',
     featured: false,
   },
@@ -38,13 +39,13 @@ const recentProjects = [
     id: 3,
     title: 'IoT Greenhouse Monitoring',
     author: 'Bayu Pratama',
-    authorAvatar: '/placeholder.svg?height=40&width=40',
+    authorAvatar: '/placeholder.svg',
     description: 'Sistem monitoring greenhouse otomatis dengan sensor IoT dan dashboard real-time',
     technologies: ['Arduino', 'Node.js', 'MongoDB', 'Socket.io'],
     likes: 29,
     comments: 6,
     views: 134,
-    image: '/placeholder.svg?height=200&width=300',
+    image: '/placeholder.svg',
     postedAt: '6 jam yang lalu',
     featured: false,
   },
@@ -52,13 +53,13 @@ const recentProjects = [
     id: 4,
     title: 'Blockchain Voting System',
     author: 'Dewi Kartika',
-    authorAvatar: '/placeholder.svg?height=40&width=40',
+    authorAvatar: '/placeholder.svg',
     description: 'Sistem voting digital menggunakan blockchain untuk transparansi dan keamanan',
     technologies: ['Solidity', 'Web3.js', 'React', 'Ethereum'],
     likes: 51,
     comments: 15,
     views: 287,
-    image: '/placeholder.svg?height=200&width=300',
+    image: '/placeholder.svg',
     postedAt: '8 jam yang lalu',
     featured: true,
   },
@@ -117,8 +118,10 @@ function ProjectCard({ project }: { project: (typeof recentProjects)[number] }) 
       )}
 
       <div className="relative overflow-hidden">
-        <img
+        <Image
           src={project.image || '/placeholder.svg'}
+          width={300}
+          height={200}
           alt={project.title}
           className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -134,8 +137,10 @@ function ProjectCard({ project }: { project: (typeof recentProjects)[number] }) 
 
       <div className="p-6">
         <div className="flex items-center gap-3 mb-4">
-          <img
+          <Image
             src={project.authorAvatar || '/placeholder.svg'}
+            width={40}
+            height={40}
             alt={project.author}
             className="w-8 h-8 rounded-full"
           />
