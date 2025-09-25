@@ -16,7 +16,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accounts      Account[]
+  accounts Account[]
 
   // #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
   // posts         PostAuthor[] // posts authored (many-to-many)
@@ -27,22 +27,18 @@ model User {
   // following     Follow[]              @relation("UserFollowing")
   // leaderboard   LeaderboardSnapshot[]
 
-  emailVerified Boolean               @default(false)
+  emailVerified Boolean   @default(false)
   image         String?
-  position      String?
   sessions      Session[]
 
   @@map("user")
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  provider          String
-  providerAccountId String
-  accessToken       String?
-  refreshToken      String?
-  expiresAt         Int?
+  id           String  @id @default(cuid())
+  userId       String
+  accessToken  String?
+  refreshToken String?
 
   user User @relation(fields: [userId], references: [id])
 
@@ -56,7 +52,6 @@ model Account {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
-  @@unique([provider, providerAccountId])
   @@map("account")
 }
 

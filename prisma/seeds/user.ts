@@ -26,9 +26,7 @@ export async function seedUsers() {
         create: [
           {
             accountId: userId,
-            provider: 'email-password',
-            providerAccountId: userId,
-            providerId: 'credential',
+            providerId: 'email-password',
             password: hashedPassword,
           },
         ],

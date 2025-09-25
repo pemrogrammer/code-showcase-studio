@@ -12,7 +12,6 @@ CREATE TABLE "public"."user" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT,
-    "position" TEXT,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -21,11 +20,8 @@ CREATE TABLE "public"."user" (
 CREATE TABLE "public"."account" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "provider" TEXT NOT NULL,
-    "providerAccountId" TEXT NOT NULL,
     "accessToken" TEXT,
     "refreshToken" TEXT,
-    "expiresAt" INTEGER,
     "accountId" TEXT NOT NULL,
     "providerId" TEXT NOT NULL,
     "idToken" TEXT,
@@ -67,9 +63,6 @@ CREATE TABLE "public"."verification" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "public"."user"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "account_provider_providerAccountId_key" ON "public"."account"("provider", "providerAccountId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "session_token_key" ON "public"."session"("token");

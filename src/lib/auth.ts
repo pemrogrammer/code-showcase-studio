@@ -50,21 +50,6 @@ export const auth = betterAuth({
     provider: 'postgresql',
   }),
 
-  user: {
-    additionalFields: {
-      role: {
-        type: 'string',
-        required: false,
-        defaultValue: 'VIEWER',
-        input: false,
-      },
-      position: {
-        type: 'string',
-        required: false,
-      },
-    },
-  },
-
   // Setup your rate limiting for auth api
   rateLimit: {
     enabled: true,
