@@ -8,9 +8,9 @@ export async function seedUsers() {
   const userId = nanoid()
 
   const hashedPassword = await bcrypt.hash(
-      (process.env.DEFAULT_PASSWORD as string) || 'Password1',
-      10
-    )
+    (process.env.DEFAULT_PASSWORD as string) || 'Password1',
+    10
+  )
 
   await prisma.user.upsert({
     where: { email: 'hello@codeshowcase.dev' },
