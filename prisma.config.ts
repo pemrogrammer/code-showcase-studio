@@ -4,4 +4,5 @@ export default defineConfig({
   migrations: {
     seed: 'tsx prisma/seeds/index.ts',
   },
+  schema: 'prisma/schema.prisma',
 })

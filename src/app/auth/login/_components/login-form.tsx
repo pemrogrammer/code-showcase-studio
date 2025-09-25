@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useState } from 'react'
-import { Loader2, Key } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import authClient from '@/lib/auth-client'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -89,10 +89,10 @@ export function LoginForm() {
                   callbackURL: '/feeds',
                 },
                 {
-                  onRequest: (ctx) => {
+                  onRequest: () => {
                     setLoading(true)
                   },
-                  onResponse: (ctx) => {
+                  onResponse: () => {
                     setLoading(false)
                   },
                 }
@@ -114,10 +114,10 @@ export function LoginForm() {
                     callbackURL: '/feeds',
                   },
                   {
-                    onRequest: (ctx) => {
+                    onRequest: () => {
                       setLoading(true)
                     },
-                    onResponse: (ctx) => {
+                    onResponse: () => {
                       setLoading(false)
                     },
                   }
@@ -160,10 +160,10 @@ export function LoginForm() {
                     callbackURL: '/feeds',
                   },
                   {
-                    onRequest: (ctx) => {
+                    onRequest: () => {
                       setLoading(true)
                     },
-                    onResponse: (ctx) => {
+                    onResponse: () => {
                       setLoading(false)
                     },
                   }
