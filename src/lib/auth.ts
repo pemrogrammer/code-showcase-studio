@@ -2,10 +2,40 @@ import bcrypt from 'bcryptjs'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { openAPI } from 'better-auth/plugins'
+import sendEmail from '@/lib/email'
+import { emailOTP } from 'better-auth/plugins'
 import prisma from '@/../prisma/prisma'
 
 export const auth = betterAuth({
-  plugins: [openAPI()],
+  plugins: [
+    openAPI(),
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        if (type === 'sign-in') {
+          await sendEmail({
+            to: email,
+            subject: 'Your Sign-In OTP for Code Showcase Studio',
+            text: `Your One-Time Password (OTP) for sign-in is: ${otp}. This OTP is valid for a short period.`,
+          })
+        } else if (type === 'email-verification') {
+          await sendEmail({
+            to: email,
+            subject: 'Verify your email address for Code Showcase Studio',
+            text: `Click the link to verify your email: ${otp}`,
+          })
+        } else {
+          await sendEmail({
+            to: email,
+            subject: 'Password Reset Request for Code Showcase Studio',
+            text: `You requested a password reset. Your One-Time Password (OTP) is: ${otp}. Use this OTP to reset your password. If you did not request this, please ignore this email.`,
+          })
+        }
+      },
+    }),
+  ],
+  emailVerification: {
+    autoSignInAfterVerification: true,
+  },
   disabledPaths: [
     // Select some un-used path from better-auth
     // "/sign-in/social",
@@ -26,7 +56,9 @@ export const auth = betterAuth({
   ],
   emailAndPassword: {
     enabled: true,
-    autoSignIn: false,
+    autoSignIn: true,
+    providerName: 'credentials',
+    requireEmailVerification: true,
     password: {
       hash: async (password) => {
         return await bcrypt.hash(password, 10)
@@ -54,6 +86,7 @@ export const auth = betterAuth({
     additionalFields: {
       role: {
         type: 'string',
+        defaultValue: 'USER',
         required: true,
         input: false,
       },

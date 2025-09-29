@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
 import authClient from '@/lib/auth-client'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -41,6 +42,7 @@ const formSchema = z.object({
 export function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
+  const router = useRouter()
   // No longer need the serverError state: const [serverError, setServerError] = useState('')
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,15 +69,18 @@ export function LoginForm() {
         },
         onError: (error) => {
           setLoading(false)
+
+          if (error.error.code === 'EMAIL_NOT_VERIFIED') {
+            sessionStorage.setItem('email_for_verification', values.email)
+            return router.push(`/auth/email-verification?email=${values.email}`)
+          }
+
           const errorMessage = error.error.message || 'An unexpected error occurred.'
 
-          // --- CHANGE IS HERE ---
-          // Instead of a general alert, set the error message directly on the input fields.
-          // This makes the UI feel more responsive and directs the user to the problem area.
-          form.setError('email', { type: 'server' }) // Mark field as invalid
+          form.setError('email', { type: 'server' })
           form.setError('password', {
             type: 'server',
-            message: errorMessage, // Show the server message under the password field
+            message: errorMessage,
           })
         },
       }
