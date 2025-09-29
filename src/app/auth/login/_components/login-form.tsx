@@ -72,7 +72,7 @@ export function LoginForm() {
 
           if (error.error.code === 'EMAIL_NOT_VERIFIED') {
             sessionStorage.setItem('email_for_verification', values.email)
-            return router.push(`/auth/email-verification?email=${values.email}`)
+            return router.push(`/auth/email-verification`)
           }
 
           const errorMessage = error.error.message || 'An unexpected error occurred.'
