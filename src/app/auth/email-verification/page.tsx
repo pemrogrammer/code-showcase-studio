@@ -49,7 +49,7 @@ export default function EmailVerificationPage() {
     } else {
       router.push('/auth/login')
     }
-  }, [])
+  }, [router])
 
   // --- Cooldown Logic ---
   useEffect(() => {
