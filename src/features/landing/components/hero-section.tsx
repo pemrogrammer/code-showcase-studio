@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Sparkles } from 'lucide-react'
+import Link from 'next/link'
 
 export default function HeroSection() {
   return (
@@ -23,10 +24,12 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="glow-purple group">
-              Mulai Showcase
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link href="/auth/login">
+              <Button size="lg" className="glow-purple group">
+                Mulai Showcase
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             {/* <Button variant="outline" size="lg" className="group bg-transparent">
               <Play className="mr-2 h-4 w-4" />
               Lihat Demo

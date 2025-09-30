@@ -56,15 +56,15 @@ export default function Header() {
             >
               Leaderboard
             </a>
-            <Link href="/login">
+            <Link href="/auth/login">
               <Button variant="outline" size="sm">
                 Masuk
               </Button>
             </Link>
 
-            <Link href="/register">
+            <Link href="/auth/register">
               <Button size="sm" className="glow-purple">
-                Mulai Sekarang
+                Daftar
               </Button>
             </Link>
           </nav>
