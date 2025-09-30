@@ -1,132 +1,180 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id        String   @id @default(cuid())
-    name      String
-    email     String   @unique
-    avatarUrl String?
-    role      Role     @default(USER)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  avatarUrl String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    accounts    Account[]
-    posts       PostAuthor[] // posts authored (many-to-many)
-    likes       Like[]
-    comments    Comment[]
-    reports     Report[]
-    followers   Follow[]              @relation("UserFollowers")
-    following   Follow[]              @relation("UserFollowing")
-    leaderboard LeaderboardSnapshot[]
+  accounts Account[]
+
+  // #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+  // posts         PostAuthor[] // posts authored (many-to-many)
+  // likes         Like[]
+  // comments      Comment[]
+  // reports       Report[]
+  // followers     Follow[]              @relation("UserFollowers")
+  // following     Follow[]              @relation("UserFollowing")
+  // leaderboard   LeaderboardSnapshot[]
+
+  emailVerified Boolean   @default(false)
+  image         String?
+  sessions      Session[]
+
+  @@map("user")
 }
 
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    provider          String
-    providerAccountId String
-    accessToken       String?
-    refreshToken      String?
-    expiresAt         Int?
+  id           String  @id @default(cuid())
+  userId       String
+  accessToken  String?
+  refreshToken String?
 
-    user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
-    @@unique([provider, providerAccountId])
+  accountId             String
+  providerId            String
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
 }
 
-model Post {
-    id          String   @id @default(cuid())
-    title       String
-    description String
-    previewUrl  String?
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+// #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+// model Post {
+//   id          String   @id @default(cuid())
+//   title       String
+//   description String
+//   previewUrl  String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
 
-    authors     PostAuthor[]
-    likes       Like[]
-    comments    Comment[]
-    reports     Report[]
-    leaderboard LeaderboardSnapshot[]
-}
+//   authors     PostAuthor[]
+//   likes       Like[]
+//   comments    Comment[]
+//   reports     Report[]
+//   leaderboard LeaderboardSnapshot[]
+// }
 
-model PostAuthor {
-    id     String @id @default(cuid())
-    userId String
-    postId String
+// #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+// model PostAuthor {
+//   id     String @id @default(cuid())
+//   userId String
+//   postId String
 
-    user User @relation(fields: [userId], references: [id])
-    post Post @relation(fields: [postId], references: [id])
+//   user User @relation(fields: [userId], references: [id])
+//   post Post @relation(fields: [postId], references: [id])
 
-    @@unique([userId, postId])
-}
+//   @@unique([userId, postId])
+// }
 
-model Like {
-    id        String   @id @default(cuid())
-    userId    String
-    postId    String
-    createdAt DateTime @default(now())
+// #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+// model Like {
+//   id        String   @id @default(cuid())
+//   userId    String
+//   postId    String
+//   createdAt DateTime @default(now())
 
-    user User @relation(fields: [userId], references: [id])
-    post Post @relation(fields: [postId], references: [id])
+//   user User @relation(fields: [userId], references: [id])
+//   post Post @relation(fields: [postId], references: [id])
 
-    @@unique([userId, postId])
-}
+//   @@unique([userId, postId])
+// }
 
-model Comment {
-    id        String   @id @default(cuid())
-    userId    String
-    postId    String
-    content   String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+// model Comment {
+//   id        String   @id @default(cuid())
+//   userId    String
+//   postId    String
+//   content   String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
-    user User @relation(fields: [userId], references: [id])
-    post Post @relation(fields: [postId], references: [id])
-}
+//   user User @relation(fields: [userId], references: [id])
+//   post Post @relation(fields: [postId], references: [id])
+// }
 
-model Report {
-    id        String   @id @default(cuid())
-    userId    String
-    postId    String
-    reason    String
-    createdAt DateTime @default(now())
+// #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+// model Report {
+//   id        String   @id @default(cuid())
+//   userId    String
+//   postId    String
+//   reason    String
+//   createdAt DateTime @default(now())
 
-    user User @relation(fields: [userId], references: [id])
-    post Post @relation(fields: [postId], references: [id])
-}
+//   user User @relation(fields: [userId], references: [id])
+//   post Post @relation(fields: [postId], references: [id])
+// }
 
-model Follow {
-    id          String   @id @default(cuid())
-    followerId  String
-    followingId String
-    createdAt   DateTime @default(now())
+// #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+// model Follow {
+//   id          String   @id @default(cuid())
+//   followerId  String
+//   followingId String
+//   createdAt   DateTime @default(now())
 
-    follower  User @relation("UserFollowers", fields: [followerId], references: [id])
-    following User @relation("UserFollowing", fields: [followingId], references: [id])
+//   follower  User @relation("UserFollowers", fields: [followerId], references: [id])
+//   following User @relation("UserFollowing", fields: [followingId], references: [id])
 
-    @@unique([followerId, followingId])
-}
+//   @@unique([followerId, followingId])
+// }
 
-model LeaderboardSnapshot {
-    id        String   @id @default(cuid())
-    month     String // e.g., "2025-09"
-    userId    String
-    postId    String?
-    score     Int
-    rank      Int
-    createdAt DateTime @default(now())
+// #### UNCOMMENT THIS WHEN RELATED FEATURE IS READY ####
+// model LeaderboardSnapshot {
+//   id        String   @id @default(cuid())
+//   month     String // e.g., "2025-09"
+//   userId    String
+//   postId    String?
+//   score     Int
+//   rank      Int
+//   createdAt DateTime @default(now())
 
-    user User  @relation(fields: [userId], references: [id])
-    post Post? @relation(fields: [postId], references: [id])
-}
+//   user User  @relation(fields: [userId], references: [id])
+//   post Post? @relation(fields: [postId], references: [id])
+// }
 
 enum Role {
-    USER
-    MODERATOR
+  USER
+  MODERATOR
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
 }
