@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useEffectEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -42,17 +42,29 @@ export default function EmailVerificationPage() {
     defaultValues: { otp: '' },
   })
 
-  useEffect(() => {
+  /**
+   * HOTFIX
+   */
+  const handleEmail = useEffectEvent(() => {
     const storedEmail = sessionStorage.getItem(EMAIL_STORAGE_KEY)
     if (storedEmail) {
       setEmail(storedEmail)
     } else {
       router.push('/auth/login')
     }
-  }, [router])
+  })
 
-  // --- Cooldown Logic ---
+  /**
+   * HOTFIX
+   */
   useEffect(() => {
+    handleEmail()
+  }, [])
+
+  /**
+   * HOTFIX
+   */
+  const handleCoolDown = useEffectEvent(() => {
     // On initial page load, check if a cooldown is already active in localStorage
     const cooldownEndTime = parseInt(localStorage.getItem(COOLDOWN_STORAGE_KEY) || '0')
     if (cooldownEndTime > Date.now()) {
@@ -61,9 +73,14 @@ export default function EmailVerificationPage() {
     }
 
     // Set up an interval to tick down the cooldown every second
-    const timer = setInterval(() => {
+    return setInterval(() => {
       setCooldown((prev) => (prev > 0 ? prev - 1 : 0))
     }, 1000)
+  })
+
+  // --- CoolDown Logic ---
+  useEffect(() => {
+    const timer = handleCoolDown()
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(timer)
