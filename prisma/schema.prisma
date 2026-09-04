@@ -31,6 +31,13 @@ model User {
   image         String?
   sessions      Session[]
 
+  username        String? @unique
+  displayUsername String?
+
+  banned     Boolean?  @default(false)
+  banReason  String?
+  banExpires DateTime?
+
   @@map("user")
 }
 
@@ -151,6 +158,7 @@ model Account {
 enum Role {
   USER
   MODERATOR
+  ADMIN
 }
 
 model Session {

@@ -26,5 +26,9 @@ export default async function sendEmail({ to, subject, text }: SendEmailProps) {
     }),
   })
 
+  if (error) {
+    throw new Error(`Resend API error: ${error.message}`)
+  }
+
   return { data, error }
 }

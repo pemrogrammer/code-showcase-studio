@@ -16,10 +16,12 @@ export function withRole<P extends object>(Component: React.ComponentType<P>, al
 
     if (!session?.user) {
       redirect('/auth/login')
+      return null
     }
 
     if (!allowed.includes(session.user.role as Role)) {
       redirect('/unauthorized')
+      return null
     }
 
     return <Component {...props} />

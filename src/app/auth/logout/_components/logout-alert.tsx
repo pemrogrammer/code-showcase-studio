@@ -14,9 +14,16 @@ import authClient from '@/lib/auth-client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export function LogoutAlert() {
+type LogoutAlertProps = {
+  isOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export function LogoutAlert({ isOpen: controlledIsOpen, onOpenChange }: LogoutAlertProps = {}) {
   const router = useRouter()
-  const [isOpen, setIsOpen] = useState(true)
+  const [internalIsOpen, setInternalIsOpen] = useState(true)
+  const isOpen = controlledIsOpen ?? internalIsOpen
+  const handleOpenChange = onOpenChange ?? setInternalIsOpen
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -29,7 +36,7 @@ export function LogoutAlert() {
   }
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+    <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
@@ -38,7 +45,7 @@ export function LogoutAlert() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={() => handleOpenChange(false)}>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleLogout}>Log Out</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

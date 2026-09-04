@@ -1,36 +1,42 @@
 'use server'
 
-import bcrypt from 'bcryptjs'
-import { nanoid } from 'nanoid'
+import { auth } from '@/lib/auth'
 import prisma from '../prisma'
 
 export async function seedUsers() {
-  const userId = nanoid()
+  const email = 'hello@codeshowcase.dev'
 
-  const hashedPassword = await bcrypt.hash(
-    (process.env.DEFAULT_PASSWORD as string) || 'Password1',
-    10
-  )
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  })
 
-  await prisma.user.upsert({
-    where: { email: 'hello@codeshowcase.dev' },
-    update: {}, // kalau sudah ada, tidak perlu update
-    create: {
-      id: userId,
+  if (existingUser) {
+    console.log('🌱 Super Admin user already exists, skipping creation.')
+    return
+  }
+
+  const res = await auth.api.createUser({
+    body: {
+      email,
+      password: (process.env.DEFAULT_PASSWORD as string) || 'Password1',
       name: 'Super Admin',
-      email: 'hello@codeshowcase.dev',
-      image: process.env.DEFAULT_USER_IMAGE,
-      emailVerified: true,
       role: 'MODERATOR',
-      accounts: {
-        create: [
-          {
-            accountId: userId,
-            providerId: 'email-password',
-            password: hashedPassword,
-          },
-        ],
+      data: {
+        username: 'superadmin',
+        displayUsername: 'Super Admin',
+        image: process.env.DEFAULT_USER_IMAGE,
       },
     },
   })
+
+  if (res?.user?.id) {
+    await prisma.user.update({
+      where: { id: res.user.id },
+      data: {
+        emailVerified: true,
+      },
+    })
+    console.log('✅ Super Admin created via auth.api.createUser.')
+  }
 }
+
